@@ -100,5 +100,3 @@ class RobotPaths {
     );
   }
 }
-
-//module.exports = RobotPaths;
