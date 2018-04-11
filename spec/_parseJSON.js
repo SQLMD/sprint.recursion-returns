@@ -30,7 +30,7 @@ const parseableStrings = [
 const unparseableStrings = ['["foo", "bar"', '["foo", "bar\\"]'];
 
 // test cases are described in fixtures.js
-describe("parseJSON", () => {
+xdescribe("parseJSON", () => {
   function testAgainstUnparseable(test, index) {
     it(
       "should throw an error for invalid JSON, unparseableStrings index: " +
