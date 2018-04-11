@@ -1,7 +1,7 @@
-const robotPaths = require("./robotPaths");
+// const robotPaths = require("./robotPaths");
 
-const rp = new robotPaths(2);
+// const rp = new robotPaths(3);
 
-const solveAmount = rp.solve();
+// const solveAmount = rp.solve();
 
-console.log(solveAmount);
+// console.log(solveAmount);

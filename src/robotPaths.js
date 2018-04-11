@@ -1,21 +1,21 @@
 class Board {
   constructor(size) {
-    this.size = size;
-    this.board = [];
+    this.size = size - 1;
+    this.squares = [];
     for (let row = 0; row < size; row += 1) {
-      this.board.push([]);
+      this.squares.push([]);
       for (let col = 0; col < size; col += 1) {
-        this.board[row].push(false);
+        this.squares[row].push(false);
       }
     }
   }
 
   togglePiece(row, col) {
-    this.board[row][col] = !this.board[row][col];
-    return this.board;
+    this.squares[row][col] = !this.squares[row][col];
   }
   hasBeenVisited(row, col) {
-    return this.board[row][col];
+    const result = this.squares[row][col];
+    return result;
   }
 }
 
@@ -30,31 +30,24 @@ class RobotPaths {
   }
 
   solve() {
-    const result = this.move(0, 0);
+    let result = 0;
+    result += this.move(this.row, this.col);
     return result;
   }
 
-  clearBoard() {
-    for (let row = 0; row < this.board.size; row += 1) {
-      for (let col = 0; col < this.board.size; col += 1) {
-        if (this.board.board[row][col]) {
-          this.board.togglePiece(row, col);
-        }
-      }
-    }
-  }
-
   move(curRow, curCol) {
+    this.board.togglePiece(curRow, curCol);
     if (this.isDestination(curRow, curCol)) {
-      this.clearBoard();
+      this.board.togglePiece(curRow, curCol);
       return 1;
     }
-    return (
+    let result =
       this.goUp(curRow, curCol) +
       this.goDown(curRow, curCol) +
       this.goLeft(curRow, curCol) +
-      this.goRight(curRow, curCol)
-    );
+      this.goRight(curRow, curCol);
+    this.board.togglePiece(curRow, curCol);
+    return result;
   }
 
   goUp(curRow, curCol) {
@@ -62,7 +55,6 @@ class RobotPaths {
     if (this.isIllegalCell(nextRow, curCol)) {
       return 0;
     } else {
-      this.board.togglePiece(nextRow, curCol);
       return this.move(nextRow, curCol);
     }
   }
@@ -72,7 +64,6 @@ class RobotPaths {
     if (this.isIllegalCell(nextRow, curCol)) {
       return 0;
     } else {
-      this.board.togglePiece(nextRow, curCol);
       return this.move(nextRow, curCol);
     }
   }
@@ -82,7 +73,6 @@ class RobotPaths {
     if (this.isIllegalCell(curRow, nextCol)) {
       return 0;
     } else {
-      this.board.togglePiece(curRow, nextCol);
       return this.move(curRow, nextCol);
     }
   }
@@ -92,24 +82,23 @@ class RobotPaths {
     if (this.isIllegalCell(curRow, nextCol)) {
       return 0;
     } else {
-      this.board.togglePiece(curRow, nextCol);
       return this.move(curRow, nextCol);
     }
   }
 
   isDestination(row, col) {
-    return row === this.board.size - 1 && col === this.board.size - 1;
+    return row === this.board.size && col === this.board.size;
   }
 
   isIllegalCell(row, col) {
     return (
-      this.board.hasBeenVisited(row, col) ||
       row < 0 ||
       col < 0 ||
-      row > this.board.size - 1 ||
-      col > this.board.size - 1
+      row > this.board.size ||
+      col > this.board.size ||
+      this.board.hasBeenVisited(row, col)
     );
   }
 }
 
-module.exports = RobotPaths;
+//module.exports = RobotPaths;
